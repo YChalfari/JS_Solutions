@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      form {
+        padding: 50px;
+        height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      h3[data-alert] {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="">
+      <label for="interest">Why are you interested in this Position?</label>
+      <h3 data-alert></h3>
+      <textarea name="" id="" cols="30" rows="10" class="area"></textarea
+      ><input type="submit" />
+    </form>
+    <script>
+      const alert = document.querySelector("[data-alert]");
+      const areaContent = document.querySelector(".area");
+      const submitBtn = document.querySelector('[type = "submit"]');
+      const checkChars = (e) => {
+        if (areaContent.value.length < 100) {
+          e.preventDefault();
+          alert.textContent = "Please enter at least 100 characters";
+        } else {
+          alert.textContent = null;
+        }
+      };
+      submitBtn.addEventListener("click", checkChars);
+    </script>
+  </body>
+</html>

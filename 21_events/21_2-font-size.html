@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .wrap {
+        width: 100vw;
+        height: 70vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #333;
+        color: coral;
+      }
+      .dec,
+      .inc {
+        height: 30px;
+        width: 30px;
+        margin: 5px;
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 5px;
+      }
+      .text {
+        font-size: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <button class="dec">-</button>
+      <h1 class="text">Size Changing Text</h1>
+      <button class="inc">+</button>
+    </div>
+    <script>
+      const decBtn = document.querySelector(".dec");
+      const incBtn = document.querySelector(".inc");
+      const h1 = document.querySelector(".text");
+      const h1ComputedSize = getComputedStyle(h1);
+
+      const decrease = (e) => {
+        let size = parseInt(h1ComputedSize.getPropertyValue("font-size"));
+        if (size > 6) {
+          h1.style.fontSize = size - 1 + "px";
+        }
+      };
+
+      incBtn.addEventListener("click", () => {
+        let size = parseInt(h1ComputedSize.getPropertyValue("font-size"));
+        if (size < 100) {
+          h1.style.fontSize = size + 1 + "px";
+        }
+      });
+
+      decBtn.addEventListener("click", decrease);
+      // incBtn.addEventListener("click", increase);
+    </script>
+  </body>
+</html>

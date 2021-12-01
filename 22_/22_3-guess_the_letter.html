@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guess The Letter</title>
+    <style>
+      .flex-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      body {
+        background-color: #333;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      .game-wrapper {
+        margin: auto;
+        height: 70vh;
+        width: 60vw;
+
+        color: #fff;
+      }
+      h1 {
+        letter-spacing: 3px;
+        font-weight: 600;
+      }
+      .letter {
+        font-size: 1.5rem;
+        font-weight: bold;
+        height: 50px;
+        width: 50px;
+        border: 3px orange solid;
+      }
+      .message-wrap {
+        height: 30px;
+      }
+      .message {
+        text-align: center;
+        white-space: nowrap;
+        font-size: 18px;
+      }
+      .red-text {
+        color: red;
+      }
+      .green-text {
+        color: green;
+      }
+      .wrong-letters {
+        text-align: center;
+      }
+      .fade-out {
+        opacity: 0;
+        transition: all 1s ease-in-out;
+      }
+      .btn-wrap {
+        margin: 15px;
+      }
+      .reset-btn {
+        font-size: 1.2rem;
+        font-weight: 550;
+        outline: none;
+        border: none;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: orange;
+        visibility: hidden;
+      }
+      /* .hidden {
+        visibility: hidden;
+      } */
+    </style>
+  </head>
+
+  <body>
+    <div class="game-wrapper flex-col">
+      <h1>Guess the letter</h1>
+      <div class="letter flex-col">?</div>
+      <div class="message-wrap">
+        <p class="message red-text"></p>
+      </div>
+      <div class="wrong-guesses__container">
+        <h3 class="wrong-letters__title">Wrong Guesses</h3>
+        <p class="wrong-letters"></p>
+      </div>
+      <div class="btn-wrap hidden">
+        <button class="reset-btn">Play Again?</button>
+      </div>
+    </div>
+    <script src="./22_3-script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      .flex-row {
+        display: flex;
+      }
+      .flex-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        margin-bottom: 25px;
+      }
+      .bg-dark {
+        background-color: #333;
+      }
+      .bg-light {
+        background-color: rgb(70, 68, 68);
+      }
+      form {
+        align-items: center;
+      }
+      body {
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        height: 80vh;
+      }
+      .digit:focus {
+        outline-color: coral;
+      }
+      .digit {
+        width: 1.5em;
+        font-size: 1.5em;
+        text-align: center;
+        flex: 1 0 1em;
+        margin: 15px;
+        border-radius: 6px;
+      }
+      .not-filled {
+        border: 2px red solid;
+      }
+      .inputs-wrap {
+        width: 100%;
+        height: 100%;
+      }
+      h3,
+      p {
+        padding: 10px;
+      }
+      p {
+        margin-bottom: 20px;
+      }
+      .submit {
+        border-radius: 10px;
+        width: 30%;
+        padding: 10px;
+        background-color: salmon;
+        outline-color: none;
+        color: black;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body class="bg-light flex-col">
+    <form onsubmit="onSubmit(verify)" class="flex-col">
+      <h3>Verification Code has been sent</h3>
+      <p>please enter the code: 123456</p>
+      <fieldset class="verification-code flex-col">
+        <legend>Verification Code</legend>
+        <div class="inputs-wrap flex-row bg-dark">
+          <input type="text" class="digit" value="" maxlength="1" />
+          <input type="text" class="digit" value="" maxlength="1" />
+          <input type="text" class="digit" value="" maxlength="1" />
+          <input type="text" class="digit" value="" maxlength="1" />
+          <input type="text" class="digit" value="" maxlength="1" />
+          <input type="text" class="digit" value="" maxlength="1" />
+        </div>
+      </fieldset>
+      <input type="submit" class="submit" />
+    </form>
+    <script>
+      const digits = document.querySelectorAll("div input");
+      const wrapper = document.querySelector(".inputs-wrap");
+      const submit = document.querySelector(".submit");
+      // Add red border on empty fields
+      //         if (digit.value.length > 1) {
+      //           digit.classList.add(".not-filled");
+      //         }
+
+      wrapper.onclick = (e) => {
+        [...digits].find((digit) => digit.value < 1).focus();
+        digits.forEach((digit, i) => {
+          digit.addEventListener("paste", (e) => {
+            digits.forEach((digit, j) => {
+              let paste = (e.clipboardData || window.clipboardData).getData(
+                "text"
+              );
+              paste.split("").forEach((char, j) => {
+                digits[i + j].value = char;
+                if (![...digits].find((digit) => digit.value < 1)) {
+                  submit.click();
+                }
+              });
+            });
+          });
+
+          digit.addEventListener("keyup", (e) => {
+            const key = e.keyCode || e.charCode;
+            if (key == 8) {
+              digits[i - 1].focus();
+              digits[i - 1].value = "";
+            } else {
+              if (i < digits.length - 1) {
+                digits[i + 1].focus();
+              } else {
+                submit.click();
+              }
+            }
+          });
+        });
+      };
+    </script>
+  </body>
+</html>

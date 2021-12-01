@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .input-wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="">
+      <div class="input-wrap">
+        <h1>Enter your age</h1>
+        <input type="number" class="age" />
+        <input type="submit" class="submit" />
+        <div class="result"></div>
+      </div>
+    </form>
+    <script>
+      const btn = document.querySelector(".submit");
+      const age = document.querySelector(".age");
+      const result = document.querySelector(".result");
+      btn.addEventListener("click", (e) => {
+        age.value > 18
+          ? (result.innerHTML = "you can drink")
+          : (result.innerHTML = "you're too young ");
+        e.preventDefault();
+      });
+    </script>
+  </body>
+</html>

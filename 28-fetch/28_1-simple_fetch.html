@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button style="display: block" class="joke-of-day btn">
+      Joke of the Day
+    </button>
+    <script>
+      const getJokeBtn = document.querySelector(".joke-of-day");
+      const getJoke = () => {
+        return fetch("https://api.jokes.one/jod")
+          .then((res) => res.json())
+          .then((res) => printJoke(res));
+      };
+      const printJoke = (obj) => {
+        let h1 = document.createElement("hi");
+        let p = document.createElement("p");
+        h1.textContent = obj.contents.jokes[0].joke.title;
+        p.textContent = obj.contents.jokes[0].joke.text;
+        document.body.prepend(p);
+        document.body.prepend(h1);
+      };
+      getJokeBtn.addEventListener("click", getJoke);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Star Wars API</title>
+  </head>
+  <body>
+    <script>
+      const body = document.querySelector("body");
+      const table = document.createElement("table");
+      const topRow = document.createElement("tr");
+      const charArr = [];
+      const fetchChars = async (num) => {
+        printHeader();
+        for (let i = 1; i <= num; i++) {
+          try {
+            const url = `https://swapi.dev/api/people/${i}/`;
+            const jsonChar = await fetch(url);
+            const charObj = await jsonChar.json();
+            const planetJson = await fetch(charObj.homeworld);
+            const planetObj = await planetJson.json();
+            printInfo(charObj, planetObj);
+            const { hair_color, height, name: charName } = charObj;
+            const { name: planetName, population } = planetObj;
+            const obj = {
+              hair_color,
+              height,
+              charName,
+              planet: { planetName, population },
+            };
+            charArr.push(obj);
+          } catch (e) {}
+        }
+      };
+      function printHeader() {
+        const mainHeader = document.createElement("th");
+        const headersRow = document.createElement("tr");
+        body.appendChild(table);
+        mainHeader.textContent = "Star Wars";
+        topRow.appendChild(mainHeader);
+        table.appendChild(topRow);
+        table.appendChild(headersRow);
+        const headers = ["Name", "Hair", "Height", "Planet", "Population"];
+        for (let i = 0; i < 5; i++) {
+          const th = document.createElement("th");
+          th.textContent = headers[i];
+          headersRow.appendChild(th);
+        }
+      }
+
+      const printInfo = (chars, planets) => {
+        const row = document.createElement("tr");
+        const { hair_color, height, name: charName } = chars;
+        const { population, name: planetName } = planets;
+        const rowObj = { charName, hair_color, height, planetName, population };
+        for (const key in rowObj) {
+          const td = document.createElement("td");
+          td.textContent = rowObj[key];
+          row.appendChild(td);
+        }
+        table.appendChild(row);
+      };
+      fetchChars(10);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>uuumdb</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      width: 100vw;
+      background-color: #f6f6eb;
+    }
+    a{
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .flex-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      height: 90vh;
+      width: 70vw;
+      background-color: #d7ecd9;
+      padding: 30px;
+      border-radius: 10px;
+      margin: 15px;
+    }
+    form {
+      margin: auto 0 15px 0;
+    }
+    label,
+    input {
+      margin: 5px;
+    }
+    label {
+      font-size: 1.2rem;
+    }
+    input{
+      padding: 3px 5px;
+    }
+    .fetch-btn {
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 5px;
+      background-color: #8d84dc;
+      border-radius: 5px;
+      border: none;
+    }
+    table{
+      padding: 15px;
+      border-spacing: 5px;}
+    table p{
+      display: inline-block;
+      width: 31%;
+      margin-right: 3px;
+    }
+    @media (max-width: 600px) {
+      .container{
+        height: fit-content;
+      }
+    }
+  </style>
+</head>
+<body>
+  <body class="flex-col">
+    <div class="container flex-col">
+      <a href="" id="user-link">
+        <div class="fetch-container flex-col"></div
+      ></a>
+      <form class="flex-col">
+        <label for="name">Enter a Movie Title: </label>
+        <input type="text" name="name" id="name" />
+        <input class="fetch-btn" type="submit" value="FETCH MOVIE" />
+      </form>
+    </div>
+    <script>
+    const link = document.getElementById("user-link");
+      const container = document.querySelector(".fetch-container");
+      const input = document.querySelector("#name");
+      const btn = document.querySelector(".fetch-btn");
+      
+      function getUser(e) {
+        e.preventDefault();
+        container.innerHTML = "";
+        const movieTitle = input.value;
+        fetchMovie(movieTitle);
+        input.value = "";
+        input.focus();
+      }
+      async function fetchMovie(movieTitle) {
+
+        const newTitle = movieTitle.split(' ').join('+');
+        try {
+          const movieJson = await fetch(
+            `http://www.omdbapi.com/?apikey=5f0c5cd&t=${newTitle}`
+          );
+          const movieData = await movieJson.json();
+          console.log(movieData);
+          if (movieData.Response != 'True') {
+            throw Error(`${movieData.Error} `);
+          }
+          drawMovieInfo(movieData);
+        } catch (e) {
+          error(e);
+        }
+      }
+
+      function drawMovieInfo({Poster,Title,Genre,Year,Plot, Director, Actors, Ratings, imdbID}) {
+       console.log(Ratings);
+        const obj = {Genre,Year,Plot, Director, Actors, Ratings}        
+        const title = document.createElement("h3");
+        const img = document.createElement("img");
+        const table = document.createElement('table');
+        for (const key in obj) {
+          const row = document.createElement('tr');
+          const header = document.createElement('th');
+          const info = document.createElement('td');
+          header.textContent= key;  
+          row.appendChild(header)
+          row.appendChild(info)         
+          table.appendChild(row)
+          if (Array.isArray(obj[key])) {
+            obj[key].forEach(rating => {
+              const p = document.createElement('p');
+              p.textContent=`${rating.Source}: ${rating.Value}`;
+              info.appendChild(p);
+            });
+          }else{                 
+          info.textContent = obj[key];}          
+        }
+        
+        link.setAttribute("href",`https://www.imdb.com/title/${imdbID}/` );
+        link.setAttribute("target",`_blank` );
+        img.style.height = "350px";
+        img.style.margin = "20px";
+        title.textContent = Title;
+        img.src = Poster;
+
+        container.appendChild(table)
+        container.prepend(title);
+        container.prepend(img);
+        
+      }
+      function error(e) {
+        container.innerHTML = `<h3>Oops, something went wrong</h3> <p>${e}</p>`;
+      }
+
+      btn.addEventListener("click", (e) => {
+        getUser(e);
+      });
+      window.addEventListener("load", () => input.focus());
+      </script>
+</body>
+</html>

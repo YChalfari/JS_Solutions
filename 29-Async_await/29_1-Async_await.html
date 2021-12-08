@@ -31,10 +31,14 @@
       };
 
       async function actuallyGetRecipe() {
-        let ids = await getIDs();
-        console.log(ids);
-        let recipe = await getRecipe(ids[2]);
-        console.log(recipe);
+        try {
+          let ids = await getIDs();
+          console.log(ids);
+          let recipe = await getRecipe(ids[2]);
+          console.log(recipe);
+        } catch {
+          console.log("Oops, Something went wrong");
+        }
       }
       actuallyGetRecipe();
     </script>

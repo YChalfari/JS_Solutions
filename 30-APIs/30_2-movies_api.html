@@ -15,7 +15,7 @@
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       height: 100vh;
       width: 100vw;
-      background-color: #f6f6eb;
+      background-color: #333;
     }
     a{
       color: black;
@@ -106,7 +106,6 @@
             `http://www.omdbapi.com/?apikey=5f0c5cd&t=${newTitle}`
           );
           const movieData = await movieJson.json();
-          console.log(movieData);
           if (movieData.Response != 'True') {
             throw Error(`${movieData.Error} `);
           }
@@ -117,7 +116,6 @@
       }
 
       function drawMovieInfo({Poster,Title,Genre,Year,Plot, Director, Actors, Ratings, imdbID}) {
-       console.log(Ratings);
         const obj = {Genre,Year,Plot, Director, Actors, Ratings}        
         const title = document.createElement("h3");
         const img = document.createElement("img");
